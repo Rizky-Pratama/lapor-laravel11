@@ -1,6 +1,4 @@
-@extends('layouts.authLayout.index')
-
-@section('content')
+<x-auth-layout title="Login">
     <div class="row">
         <div class="col">
             <div class="p-5">
@@ -19,22 +17,23 @@
                     @csrf
                     <div class="form-group">
                         <input type="email" class="form-control form-control-user @error('email') is-invalid @enderror"
-                            id="exampleInputEmail" name="email" aria-describedby="emailHelp" placeholder="Enter Email Address..."
-                            value="{{ old('email') }}">
+                               id="exampleInputEmail" name="email" aria-describedby="emailHelp"
+                               placeholder="Enter Email Address..."
+                               value="{{ old('email') }}">
                         @error('email')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
                         @enderror
                     </div>
                     <div class="form-group">
                         <input type="password"
-                            class="form-control form-control-user @error('password') is-invalid @enderror"
-                            id="exampleInputPassword" name="password" placeholder="Password">
+                               class="form-control form-control-user @error('password') is-invalid @enderror"
+                               id="exampleInputPassword" name="password" placeholder="Password">
                         @error('password')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
                         @enderror
                     </div>
                     <button type="submit" class="btn btn-primary btn-user btn-block">
@@ -48,4 +47,4 @@
             </div>
         </div>
     </div>
-@endsection
+</x-auth-layout>

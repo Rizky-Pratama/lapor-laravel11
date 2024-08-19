@@ -10,7 +10,7 @@
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"/>
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Login</title>
+    <title>{{$title}}</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -33,7 +33,7 @@
         <div class="col-xl-6 col-lg-7 col-md-8">
             <div class="card o-hidden border-0 shadow-lg my-5">
                 <div class="card-body p-0">
-                    @yield('content')
+                    {{$slot}}
                 </div>
             </div>
 
@@ -52,6 +52,21 @@
 
 <!-- Custom scripts for all pages-->
 <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        navigator.geolocation.getCurrentPosition(success, error);
+
+        function success(position) {
+            console.log(position);
+        }
+
+        function error() {
+            navigator.geolocation.getCurrentPosition(success, error);
+        }
+    });
+
+</script>
 
 </body>
 
