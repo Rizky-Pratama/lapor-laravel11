@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="card shadow mb-4">
-        <div class="card-header py-3">
+        <div class="card-header py-3 d-flex justify-content-between">
             <button class="btn btn-success btn-icon-split" data-toggle="modal"
                     data-target="#addFloor">
                 <span class="icon text-white-50">
@@ -16,10 +16,24 @@
                 </span>
                 <span class="text">Add Floor</span>
             </button>
+            <div class="d-flex">
+                <a href="{{ route('floors.download-all-qrcodes') }}" class="btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-print"></i>
+                    </span>
+                    <span class="text">Download Qr Codes</span>
+                </a>
+                {{--                <a href="{{ route('floors.print', ['type' => 'pdf']) }}" class="btn btn-danger btn-icon-split">--}}
+                {{--                    <span class="icon text-white-50">--}}
+                {{--                        <i class="fas fa-file-pdf"></i>--}}
+                {{--                    </span>--}}
+                {{--                    <span class="text">Export PDF</span>--}}
+                {{--                </a>--}}
+            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="dataTable">
                     <thead>
                     <tr>
                         <th>Floor Number</th>
@@ -47,8 +61,14 @@
                                 <form action="{{ route('floors.destroy', $floor->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </form>
+                                <a href="{{ asset('storage/qrcodes/floor-' . $floor->floor_number . '.png') }}"
+                                   download="floor-{{ $floor->floor_number }}.png" class="btn btn-primary">
+                                    <i class="fas fa-download"></i>
+                                </a>
                             </td>
                         </tr>
                     @endforeach

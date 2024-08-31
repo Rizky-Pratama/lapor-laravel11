@@ -8,6 +8,7 @@ use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use ZipArchive;
 
 class FloorController extends Controller
 {
@@ -96,5 +97,21 @@ class FloorController extends Controller
         $request->session()->flash('success', 'Floor deleted successfully');
         return redirect()->route('floors.index');
 
+    }
+
+    public function downloadAllQrCode()
+    {
+        $files = Storage::disk('public')->files('qrcodes');
+        $zip = new ZipArchive();
+        $zipFileName = 'qrcodes.zip';
+        $zip->open(storage_path('app/public/' . $zipFileName), ZipArchive::CREATE | ZipArchive::OVERWRITE);
+
+        foreach ($files as $file) {
+            $fileName = basename($file);
+            $zip->addFile(storage_path('app/public/' . $file), $fileName);
+        }
+
+        $zip->close();
+        return response()->download(storage_path('app/public/' . $zipFileName))->deleteFileAfterSend(true);
     }
 }
