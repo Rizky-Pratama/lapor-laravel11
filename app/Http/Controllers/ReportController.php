@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Floor;
 use App\Models\Report;
 use App\Models\ReportPhoto;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
@@ -147,5 +148,13 @@ class ReportController extends Controller
     {
         $reports = Report::where('user_id', auth()->id())->with(['floor'])->get();
         return view('pages.report.my_reports', compact('reports'));
+    }
+
+    public function exportAllReports()
+    {
+        $reports = Report::with(['user', 'floor'])->get();
+        $pdf = Pdf::loadView('pdf.reports', compact('reports'));
+        return $pdf->stream('reports.pdf');
+//        return view('pdf.reports', compact('reports'));
     }
 }

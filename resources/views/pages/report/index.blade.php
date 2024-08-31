@@ -8,13 +8,18 @@
 
 @section('content')
     <div class="card shadow mb-4">
-        <div class="card-header py-3">
+        <div class="card-header py-3 d-flex justify-content-between">
             <a href="{{ route('reports.create') }}" class="btn btn-success btn-icon-split">
                 <span class="icon text-white-50">
                     <i class="fas fa-plus"></i>
                 </span>
                 <span class="text">Add Report</span>
             </a>
+            <div>
+                <a href="{{ route('reports.pdf') }}" class="btn btn-primary">
+                    <i class="fas fa-print"></i> Print PDF
+                </a>
+            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">

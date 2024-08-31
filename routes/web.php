@@ -21,6 +21,8 @@ Route::middleware('guest')->group(function () {
 Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::resource('users', UserController::class)->except('show');
     Route::resource('floors', FloorController::class)->only(['index', 'store', 'destroy']);
+    Route::get('floors/download-qrcodes', [FloorController::class, 'downloadAllQrCode'])->name('floors.download-all-qrcodes');
+    Route::get('reports/pdf', [ReportController::class, 'exportAllReports'])->name('reports.pdf');
     Route::resource('reports', ReportController::class)->withoutMiddleware('is_admin');
     Route::get('my-reports', [ReportController::class, 'myReports'])->withoutMiddleware('is_admin')->name('reports.my-reports');
     Route::post('/logout', [AuthController::class, 'logout'])->withoutMiddleware('is_admin');
