@@ -18,10 +18,12 @@ class ReportFactory extends Factory
      */
     public function definition(): array
     {
+        $location = $this->faker->latitude . ',' . $this->faker->longitude;
         return [
             'user_id' => User::factory(),
             'floor_id' => Floor::factory(),
             'message' => $this->faker->paragraph(),
+            'location' => $location,
         ];
     }
 }

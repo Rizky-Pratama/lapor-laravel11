@@ -16,6 +16,7 @@ class Report extends Model
         'user_id',
         'floor_id',
         'message',
+        'location',
     ];
 
     public function user(): BelongsTo

@@ -10,7 +10,7 @@
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"/>
     <meta name="author" content="">
 
-    <title>{{$title}}</title>
+    <title>Location Permission Required</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -25,33 +25,35 @@
 
 <body class="bg-gradient-primary">
 
-<div class="container">
-
-    <!-- Outer Row -->
-    <div class="row justify-content-center">
-
-        <div class="col-xl-6 col-lg-7 col-md-8">
-            <div class="card o-hidden border-0 shadow-lg my-5">
-                <div class="card-body p-0">
-                    {{$slot}}
-                </div>
-            </div>
-
-        </div>
-
+<div class="container mt-5">
+    <div class="alert alert-warning">
+        <h4 class="alert-heading">Location Permission Required</h4>
+        <p>Please enable and allow location services to continue.</p>
+        <button onclick="requestLocationPermission()" class="btn btn-warning">Enable Location</button>
     </div>
-
 </div>
 
 <!-- Bootstrap core JavaScript-->
 <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
-<!-- Core plugin JavaScript-->
-<script src="{{ asset('assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-
 <!-- Custom scripts for all pages-->
 <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
+<script>
+    function requestLocationPermission() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                // Handle successful location access
+                window.location.href = '{{ url()->previous() }}';
+            }, function (error) {
+                // Handle location access denied
+                alert('Location access denied. Please enable location services.');
+            });
+        } else {
+            alert('Geolocation is not supported by this browser.');
+        }
+    }
+</script>
 
 </body>
+
 </html>
