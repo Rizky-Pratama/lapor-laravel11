@@ -30,3 +30,7 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
         return view('pages.dashboard.index');
     });
 });
+
+Route::get('/location-permission', function () {
+    return view('pages.location.permission');
+})->name('location.permission');

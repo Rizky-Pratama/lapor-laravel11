@@ -23,6 +23,10 @@
                     <p>
                         <strong>Date:</strong> {{ Carbon::parse($report->created_at)->timezone('Asia/Jakarta')->translatedFormat('d F Y H:i:s') }}
                     </p>
+                    <p><strong>Location:</strong>
+                        <a href="https://www.google.com/maps?q={{ $report->location }}"
+                           target="_blank">{{ $report->location }}</a>
+                    </p>
                 </div>
             </div>
         </div>

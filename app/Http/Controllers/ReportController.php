@@ -35,7 +35,6 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->all());
         $user_id = auth()->id();
         $qr_code = $request->qrcode;
         $floor = Floor::where('qrcode', $qr_code)->first();
@@ -49,12 +48,16 @@ class ReportController extends Controller
         $request->validate([
             'message' => 'required',
             'photos.*' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'latitude' => 'required|numeric|between:-90,90',
+            'longitude' => 'required|numeric|between:-180,180',
         ]);
 
+        $location = $request->latitude . ',' . $request->longitude;
         $data = [
             'user_id' => $user_id,
             'floor_id' => $floor->id,
             'message' => $request->message,
+            'location' => $location,
         ];
 
         // Create a new report

@@ -15,6 +15,8 @@
         <div class="card-body">
             <form action="{{ route('reports.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="latitude">
+                <input type="hidden" name="longitude">
                 <div class="form-group">
                     <label for="qrcode">Qr Code</label>
                     <div id="reader" class="mb-3" style="max-width: 500px; display: none"></div>
@@ -73,6 +75,12 @@
     <script>
         $(document).ready(function () {
             bsCustomFileInput.init()
+            navigator.geolocation.getCurrentPosition(function (position) {
+                document.querySelector('input[name="latitude"]').value = position.coords.latitude;
+                document.querySelector('input[name="longitude"]').value = position.coords.longitude;
+            }, function (error) {
+                window.location.href = '{{ route('location.permission') }}';
+            });
         })
     </script>
     <script>
@@ -101,6 +109,28 @@
         document.getElementById('scanQrCode').addEventListener('click', function () {
             reader.style.display = 'block';
             html5QrcodeScanner.render(onScanSuccess);
+        });
+
+        document.getElementsByTagName('form')[0].addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+
+                    document.querySelector('input[name="latitude"]').value = latitude;
+                    document.querySelector('input[name="longitude"]').value = longitude;
+
+                    e.target.submit();
+                }, function (error) {
+                    alert('Lokasi tidak dapat diakses: ' + error.message);
+                });
+            } else {
+                alert('Geolocation tidak didukung oleh browser ini.');
+            }
+
+            html5QrcodeScanner.clear();
         });
     </script>
 @endsection
